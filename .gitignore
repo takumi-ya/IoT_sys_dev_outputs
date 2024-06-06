@@ -1,0 +1,40 @@
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# ignore Quartus generated folders
+/db/
+/incremental_db/
+/simulation/
+/timing/
+/testbench/
+/*_sim/
+# project files
+!*.qpf
+!*.qsf
+# source files
+!*.bdf
+!*.vhd
+!*.v
+!*.sv
+# IP core files
+!*.qip
+!*.sip
+!*.bsf
+# SOPC builder project source files
+!*.ptf
+!*.bsf
+# board description
+!**/class.ptf
+# sdc files:
+!*.sdc
+# tcl files:
+!*.tcl

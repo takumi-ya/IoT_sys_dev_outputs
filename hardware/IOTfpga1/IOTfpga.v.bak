@@ -1,0 +1,42 @@
+module top_module(
+    input wire clk,
+    input wire reset,
+    output wire [7:0] vga_r,
+    output wire [7:0] vga_g,
+    output wire [7:0] vga_b,
+    output wire hsync,
+    output wire vsync
+);
+    wire [9:0] x;
+    wire [8:0] y;
+    wire [7:0] iter[0:7]; // 並列処理用に複数のiter信号
+
+    // インスタンス化されたVGA同期モジュール
+    vga_sync vga_sync_inst (
+        .clk(clk),
+        .reset(reset),
+        .hsync(hsync),
+        .vsync(vsync),
+        .x(x),
+        .y(y)
+    );
+
+    // インスタンス化されたMandelbrot計算モジュール（8つ）
+    genvar i;
+    generate
+        for (i = 0; i < 8; i = i + 1) begin : mandelbrot_gen
+            mandelbrot_calc mandelbrot_calc_inst (
+                .clk(clk),
+                .reset(reset),
+                .x(x + i),
+                .y(y),
+                .iter(iter[i])
+            );
+        end
+    endgenerate
+
+    // 色の割り当て（簡単なグレースケール）
+    assign vga_r = (iter[0] == 255) ? 8'h00 : iter[0];
+    assign vga_g = (iter[0] == 255) ? 8'h00 : iter[0];
+    assign vga_b = (iter[0] == 255) ? 8'h00 : iter[0];
+endmodule
